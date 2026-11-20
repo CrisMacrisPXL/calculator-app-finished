@@ -16,7 +16,7 @@ jobs:
           cache: npm
 
       - name: Dependencies installeren
-        run: npm ci
+        run: npm install
 
       - name: Bundelen in een zip
         run: zip -r app.zip . -x ".git/*"
