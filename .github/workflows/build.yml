@@ -1,0 +1,28 @@
+name: Build Example
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code uitchecken
+        uses: actions/checkout@v4
+
+      - name: Node.js en npm instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Dependencies installeren
+        run: npm ci
+
+      - name: Bundelen in een zip
+        run: zip -r app.zip . -x ".git/*"
+
+      - name: Zip als artifact bewaren
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: app.zip
