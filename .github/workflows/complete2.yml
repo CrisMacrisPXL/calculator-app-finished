@@ -21,17 +21,11 @@ jobs:
       - name: Bundelen in een zip
         run: zip -r app.zip . -x ".git/*"
 
-      - name: Unit tests uitvoeren en rapport maken
-        run: |
-          set -o pipefail
-          npm test 2>&1 | tee test-report.txt
-
-      - name: Testrapport bewaren
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report
-          path: test-report.txt
+      - name: Unit tests uitvoeren 
+        run: npm test -- --ci --coverage
 
       - name: Better test reports action
+        if: always()
         uses: mridang/action-test-reporter@v1.3.0
+        with:
+          coverage-file: coverage/lcov.info
